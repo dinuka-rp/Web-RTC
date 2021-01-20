@@ -8,14 +8,19 @@
 
   var video = null;
   var canvas = null;
-  var photo = null;
+  var photo1 = null;
+  var photo2 = null;
   var startbutton = null;
+
+  let allPhotos = [];
 
   function startup() {
     //   startup() function is run when the page has finished loading
     video = document.getElementById("video");
     canvas = document.getElementById("canvas");
-    photo = document.getElementById("photo");
+    photo1 = document.getElementById("photo1");
+    photo2 = document.getElementById("photo2");
+
     startbutton = document.getElementById("startbutton");
 
     // Get the media stream
@@ -67,7 +72,7 @@
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     var data = canvas.toDataURL("image/png");
-    photo.setAttribute("src", data);
+    // photo.setAttribute("src", data);
   }
 
   //   capture the currently displayed video frame, convert it into a PNG file, and display it in the captured frame box
@@ -77,12 +82,19 @@
       canvas.width = width;
       canvas.height = height;
 
-    //   context.filter = 'contrast(5)';     // add effect
+      //   context.filter = 'contrast(5)';     // add effect
 
       context.drawImage(video, 0, 0, width, height);
 
       var data = canvas.toDataURL("image/png"); // convert it to PNG format
-      photo.setAttribute("src", data);
+      //   photo.setAttribute("src", data);
+      allPhotos.push(data);
+
+      
+      if (allPhotos.length === 2) {
+        photo1.setAttribute("src", allPhotos[0]);
+        photo2.setAttribute("src", allPhotos[1]);
+      }
     } else {
       clearphoto();
     }
